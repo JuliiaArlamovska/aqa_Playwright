@@ -1,0 +1,22 @@
+{
+  "name": "aqa_playwright",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/JuliiaArlamovska/aqa_Playwright#readme",
+  "bugs": {
+    "url": "https://github.com/JuliiaArlamovska/aqa_Playwright/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JuliiaArlamovska/aqa_Playwright.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {},
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@types/node": "^25.5.0"
+  }
+}
