@@ -6,6 +6,7 @@ export class GaragePage {
     }
 
     async open() {
-        await this.page.goto('/panel/garage');
+        const baseUrl = process.env.BASE_URL ?? 'https://qauto.forstudy.space/';
+        await this.page.goto(new URL('/panel/garage', baseUrl).toString());
     }
 }

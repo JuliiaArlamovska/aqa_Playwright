@@ -6,8 +6,24 @@ import { LoginModal } from '../../scr/page-objects/login-modal.page.js';
 import { GaragePage } from '../../scr/page-objects/garage.page.js';
 
 const STORAGE_STATE_PATH = path.join(process.cwd(), 'storageState', 'userGarage.json');
-const LOGIN_EMAIL = process.env.LOGIN_EMAIL ?? 'yulchuk.if@gmail.com';
-const LOGIN_PASSWORD = process.env.LOGIN_PASSWORD ?? 'Testuser123';
+const LOGIN_EMAIL = 'yulchuk.if@gmail.com';
+const LOGIN_PASSWORD = 'Testuser123';
+const BASE_URL = 'https://qauto.forstudy.space/';
+
+function isValidStorageState(pathToState) {
+    if (!fs.existsSync(pathToState)) {
+        return false;
+    }
+
+    try {
+        const state = JSON.parse(fs.readFileSync(pathToState, 'utf-8'));
+        const hasValidCookie = Array.isArray(state.cookies)
+            && state.cookies.some(cookie => cookie.name === 'sid' && cookie.value);
+        return hasValidCookie;
+    } catch {
+        return false;
+    }
+}
 
 async function createStorageState(browser) {
     const context = await browser.newContext();
@@ -19,7 +35,7 @@ async function createStorageState(browser) {
     await mainPage.clickLogin();
     await expect(loginModal.container).toBeVisible();
     await loginModal.login(LOGIN_EMAIL, LOGIN_PASSWORD);
-    await page.waitForURL(/.*\/panel\/garage$/);
+    await page.waitForURL(/.*\/panel\/garage$/, { timeout: 15000 });
 
     await context.storageState({ path: STORAGE_STATE_PATH });
     await context.close();
@@ -27,7 +43,7 @@ async function createStorageState(browser) {
 
 export const test = base.extend({
     userGaragePage: async ({ browser }, use) => {
-        if (!fs.existsSync(STORAGE_STATE_PATH)) {
+        if (!isValidStorageState(STORAGE_STATE_PATH)) {
             await createStorageState(browser);
         }
 
