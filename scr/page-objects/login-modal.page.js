@@ -25,6 +25,9 @@ export class LoginModal {
     async login(email, password) {
         await this.fillEmail(email);
         await this.fillPassword(password);
-        await this.clickLogin();
+        await Promise.all([
+            this.page.waitForURL(/.*\/panel\/garage$/),
+            this.clickLogin(),
+        ]);
     }
 }

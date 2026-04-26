@@ -8,7 +8,8 @@ export class MainPage {
     }
 
     async open() {
-        await this.page.goto('/');
+        const baseUrl = process.env.BASE_URL ?? 'https://qauto.forstudy.space/';
+        await this.page.goto(baseUrl);
     }
 
     async clickSignUp() {
